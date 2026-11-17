@@ -8,10 +8,11 @@ Updated 12 November 2026.
 - Confirmed the Data API returns that series.
 - Repository holds a downloader that saves the file unchanged and writes a manifest.
 - Unit tests read a two-row fixture. They do not call the ABS website.
+- PostgreSQL can store each raw line in `bronze.cpi_row`. Loading the same file twice does not duplicate it.
 
 ## Next, after this slice is understood
 
-Load the bronze file into PostgreSQL without changing the raw file.
+Clean the bronze rows into a silver table: one checked number per month.
 
 ## Not started
 

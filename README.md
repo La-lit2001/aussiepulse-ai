@@ -2,7 +2,7 @@
 
 A practice data platform for one question: **what did the Australian Consumer Price Index do, and can we show the ABS file the number came from?**
 
-This is slice 1 of a larger project. It downloads one public series and stores that file unchanged. It does not have a database, a scheduler, or an assistant yet.
+The project currently does two things. It downloads one public price series, and it copies that file into a local PostgreSQL database. It does not have a scheduler or an assistant yet.
 
 ## What works now
 
@@ -24,6 +24,22 @@ python src/aussiepulse/ingest/cpi.py
 
 A good run prints `rows=30` or another count the ABS returns that day, then `earliest=` and `latest=`. On 12 November 2026 this series came back as 30 months, from 2024-04 to 2026-09. The file is not in date order. The script sorts only the summary it prints. The saved CSV stays in the ABS order.
 
+## Put the file in the database
+
+PostgreSQL is the program that holds tables. Docker starts it on your computer with one command. Install Docker Desktop first, and leave it running.
+
+```powershell
+Copy-Item .env.example .env
+docker compose up -d
+pip install -r requirements.txt
+$env:PYTHONPATH = "src"
+python -m aussiepulse.warehouse.load_bronze
+```
+
+The first run prints `file_inserted=1` and `rows_stored=` followed by the number of data lines. Run the same command again. It prints `file_inserted=0` and the same `rows_stored`. The second run found the file was already there, so it did not add the months a second time.
+
+The price stays text in this table, such as `97.31`. The original CSV is not edited.
+
 ## Test it
 
 ```powershell
@@ -40,8 +56,8 @@ Based on Australian Bureau of Statistics data. ABS website material is used unde
 
 ## What this is not
 
-The downloader runs on a laptop. It is not a production platform. There is no retry dashboard, no warehouse, and no cloud deployment.
+The database runs on a laptop. The password in `.env.example` is only for that local database. This is not a company production system. There is no scheduler, dashboard, or cloud deployment.
 
 ## Next slice
 
-Load the bronze CSV into PostgreSQL, still without editing the raw file.
+Clean the bronze rows into a silver table: one checked number per month.

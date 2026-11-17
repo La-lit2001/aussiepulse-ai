@@ -18,7 +18,9 @@ Gold: change versus the same month last year (not built yet)
     +--> assistant that cites a gold row     (not built yet)
 ```
 
-Slice 1 is only the first arrow. The download script saves the ABS response as bytes. It does not round numbers or drop months.
+The download script saves the ABS response as bytes. It does not round numbers or drop months.
+
+The next step copies those lines into PostgreSQL. The table `bronze.cpi_file` records the checksum. The table `bronze.cpi_row` records each original line. Prices stay text until the silver step.
 
 The laptop folder `data/bronze/` stands in for a cloud file store such as Azure Data Lake. We are not spending cloud money in this slice.
 
