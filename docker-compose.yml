@@ -1,0 +1,15 @@
+# Local database only. The password is for this laptop, not a real company system.
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: aussiepulse
+      POSTGRES_PASSWORD: aussiepulse_dev
+      POSTGRES_DB: aussiepulse
+    ports:
+      - "5432:5432"
+    volumes:
+      - aussiepulse_postgres:/var/lib/postgresql/data
+
+volumes:
+  aussiepulse_postgres:
