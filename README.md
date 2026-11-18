@@ -40,6 +40,18 @@ The first run prints `file_inserted=1` and `rows_stored=` followed by the number
 
 The price stays text in this table, such as `97.31`. The original CSV is not edited.
 
+## Check the rows
+
+Silver means the checked copy. A good row has a real month, such as `2024-12`, and a price that can be read as a number. That number is stored on the first day of the month. A blank price is not thrown away from the original table. It is listed in `silver.cpi_rejection` with the reason `missing_price`. If the same month appears twice, one copy is kept.
+
+Run this after the bronze load:
+
+```powershell
+python -m aussiepulse.warehouse.build_silver
+```
+
+A good run on the full ABS file prints `months_kept=` and `rows_rejected=0`. Run it again and the counts stay the same. The command rebuilds the checked table instead of adding a second copy.
+
 ## Test it
 
 ```powershell
@@ -60,4 +72,4 @@ The database runs on a laptop. The password in `.env.example` is only for that l
 
 ## Next slice
 
-Clean the bronze rows into a silver table: one checked number per month.
+Add the gold number: how much the index changed from the same month a year earlier.

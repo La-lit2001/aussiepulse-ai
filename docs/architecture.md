@@ -20,7 +20,9 @@ Gold: change versus the same month last year (not built yet)
 
 The download script saves the ABS response as bytes. It does not round numbers or drop months.
 
-The next step copies those lines into PostgreSQL. The table `bronze.cpi_file` records the checksum. The table `bronze.cpi_row` records each original line. Prices stay text until the silver step.
+`bronze.cpi_file` records the checksum. `bronze.cpi_row` records each original line. Prices stay text there.
+
+Silver reads those lines. A valid line becomes one row in `silver.cpi_month`, with the price stored as a number on the first day of that month. A line that fails a check is written to `silver.cpi_rejection` and left unchanged in bronze.
 
 The laptop folder `data/bronze/` stands in for a cloud file store such as Azure Data Lake. We are not spending cloud money in this slice.
 
