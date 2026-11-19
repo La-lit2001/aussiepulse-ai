@@ -52,6 +52,16 @@ python -m aussiepulse.warehouse.build_silver
 
 A good run on the full ABS file prints `months_kept=` and `rows_rejected=0`. Run it again and the counts stay the same. The command rebuilds the checked table instead of adding a second copy.
 
+## Compare with last year
+
+Gold is the answer a person would ask. For each checked month, the program looks for the same month one year earlier. December 2025 is compared with December 2024. The difference is stored as points and as a percent. A month that has no earlier year is still stored, with an empty change.
+
+```powershell
+python -m aussiepulse.warehouse.build_gold
+```
+
+The printout includes `months_stored=`, `comparisons=`, and a `latest=` line for the newest month that has a comparison. Run it again and the counts stay the same. Rebuild silver before rebuilding gold if you have loaded a new file.
+
 ## Test it
 
 ```powershell
@@ -72,4 +82,4 @@ The database runs on a laptop. The password in `.env.example` is only for that l
 
 ## Next slice
 
-Add the gold number: how much the index changed from the same month a year earlier.
+Run this download, check, and comparison on a schedule, and record it when the ABS website fails.

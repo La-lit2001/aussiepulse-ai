@@ -10,10 +10,11 @@ Updated 12 November 2026.
 - Unit tests read a two-row fixture. They do not call the ABS website.
 - PostgreSQL can store each raw line in `bronze.cpi_row`. Loading the same file twice does not duplicate it.
 - Silver keeps one checked number per month in `silver.cpi_month`. Rows that fail a check are listed in `silver.cpi_rejection`.
+- Gold stores each month in `gold.cpi_annual_change`, with the change from the same month one year earlier when that month exists.
 
 ## Next, after this slice is understood
 
-Add the gold number: the change from the same month a year earlier.
+Schedule the download, silver build, and gold build, and record a failure when the ABS website does not answer.
 
 ## Not started
 

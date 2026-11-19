@@ -24,6 +24,8 @@ The download script saves the ABS response as bytes. It does not round numbers o
 
 Silver reads those lines. A valid line becomes one row in `silver.cpi_month`, with the price stored as a number on the first day of that month. A line that fails a check is written to `silver.cpi_rejection` and left unchanged in bronze.
 
+Gold reads the silver months. `gold.cpi_annual_change` stores the index, the index from 12 months earlier, the point change, and the percent change. The match is the same region, index, and frequency. An early month with no prior year keeps empty change columns.
+
 The laptop folder `data/bronze/` stands in for a cloud file store such as Azure Data Lake. We are not spending cloud money in this slice.
 
 The series is All groups CPI, Australia, original, monthly.
